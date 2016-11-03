@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_tracking_options">
+        <item>@string/pref_tracking_car_gps</item>
+        <item>@string/pref_tracking_tablet_gps</item>
+        <item>@string/pref_tracking_simulator</item>
+    </string-array>
+
+    <string-array name="pref_tracking_values">
+        <item>@string/pref_tracking_car_gps_val</item>
+        <item>@string/pref_tracking_tablet_gps_val</item>
+        <item>@string/pref_tracking_simulator_val</item>
+    </string-array>
+</resources>

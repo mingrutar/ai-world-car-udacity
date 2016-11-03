@@ -1,0 +1,2 @@
+1) steer wheel change color according speed.
+2) icons (?) for Auto, Normal and Pursuit mode

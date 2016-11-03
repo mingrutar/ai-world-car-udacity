@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <ListPreference
+        android:title="@string/pref_tracking_options"
+        android:key="@string/tracking_key"
+        android:defaultValue="@string/pref_tracking_simulator"
+        android:entryValues="@array/pref_tracking_values"
+        android:entries="@array/pref_tracking_options" />
+
+</PreferenceScreen>

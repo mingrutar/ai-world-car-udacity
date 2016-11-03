@@ -1,0 +1,54 @@
+apply plugin: 'com.android.application'
+
+ext {
+    androidLibVersion = '25.0.0'
+}
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
+
+    defaultConfig {
+        applicationId "com.coderming.worldcar"
+        minSdkVersion 21
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    buildTypes.each {
+        if (project.hasProperty("theMapboxApiKeyProp")) {
+            it.buildConfigField 'String', 'MAPBOX_API_KEY', theMapboxApiKeyProp
+        } else {
+            logger.warn("Missing theMapboxApiKeyProp ");
+        }
+    }
+}
+
+//repositories {
+//    maven { url "https://jitpack.io" }
+//    maven { url "http://oss.sonatype.org/content/repositories/snapshots/" }
+//}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:${androidLibVersion}"
+    compile "com.android.support:design:${androidLibVersion}"
+    compile "com.android.support:cardview-v7:${androidLibVersion}"
+
+
+    compile('com.mapbox.mapboxsdk:mapbox-android-sdk:4.2.0-beta.4@aar') {
+        transitive = true
+    }
+    compile('com.mapbox.mapboxsdk:mapbox-android-services:1.3.1@aar') {
+        transitive = true
+    }
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.android.support:support-v4:25.0.0'
+}
