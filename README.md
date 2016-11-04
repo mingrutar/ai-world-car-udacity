@@ -25,7 +25,7 @@ to set destination, long click the location on the map. A route will shown.
 3. implement the video ( optional music and radio) function.
 4. let user to type in destination address.   
 
-#### Autoware - Big Challenges ####
+#### Autoware the Big Challenges ####
 1. connect to Autoware.  
 2. The car icon moves according to car GPS. Questions:
    a) Is it possible to set destination to car? if yes (guess yes), how?
