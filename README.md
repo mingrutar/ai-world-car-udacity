@@ -39,14 +39,6 @@ to set destination, long click the location on the map. A route will shown.
 
 ### Screenshots ###
 
-The portrait layout
-
-![portrait](https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/portrait.png?raw=true)
-
-The landscape layout
-
-![landscape](https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/landscape.png?raw=true)
-
 Click the Switching button to make video in main window
 
 ![videoMain] (https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/play_video_inmain.png?raw=true)
@@ -54,3 +46,11 @@ Click the Switching button to make video in main window
 Or Map is in the main window
 
 ![carmoving](https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/play_video_inside.png?raw=true)
+
+The portrait layout
+
+![portrait](https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/portrait.png?raw=true)
+
+The landscape layout
+
+![landscape](https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/landscape.png?raw=true)
