@@ -1,7 +1,6 @@
 package com.coderming.worldcar.ui;
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.coderming.worldcar.BuildConfig;
@@ -57,9 +57,12 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.small_container, mMediaFragment, SIDE_FRAG)
                     .commit();
+            getSupportFragmentManager().executePendingTransactions();
+
        } else {
             Fragment fragment = getSupportFragmentManager().findFragmentByTag(MAIN_FRAG);
             mMapWrapper = new WCMapFragmentWrapper(MainActivity.this, fragment);
+            mMediaFragment = (MediaFragment) getSupportFragmentManager().findFragmentByTag(SIDE_FRAG);
         }
         mMapWrapper.synchMap();
 
@@ -75,7 +78,19 @@ public class MainActivity extends AppCompatActivity {
         locationServices.toggleGPS(true);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        mMapWrapper.setFab(fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                View mapView = mMapWrapper.getMapFragment().getView();
+                View videoView = mMediaFragment.getView();
+                ViewGroup viewParent1 = (ViewGroup) mapView.getParent();
+                ViewGroup viewParent2 = (ViewGroup) videoView.getParent();
+                viewParent1.removeView(mapView);
+                viewParent2.removeView(videoView);
+                viewParent1.addView(videoView);
+                viewParent2.addView(mapView);
+            }
+        });
     }
 
     @Override
@@ -108,11 +123,6 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            return true;
-        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -133,6 +143,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        Log.v(LOG_TAG, "+++++ onStop: finished ");
+        Log.v(LOG_TAG, "+++++ onStop");
     }
 }

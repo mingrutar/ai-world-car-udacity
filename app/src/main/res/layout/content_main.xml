@@ -29,7 +29,7 @@
             android:id="@+id/small_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="#4f0000ff"
+            android:background="@color/colorPrimary"
             android:layout_weight="1"/>
     </LinearLayout>
 </LinearLayout>

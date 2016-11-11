@@ -10,7 +10,6 @@ import android.location.LocationManager;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -62,7 +61,7 @@ import retrofit2.Response;
  * Created by linna on 11/1/2016.
  */
 
-public class WCMapFragmentWrapper  {
+public class WCMapFragmentWrapper implements SwitchableView {
     private static final String LOG_TAG = WCMapFragmentWrapper.class.getSimpleName();
 
     private static final int ANIMATE_DURATION = 3000;
@@ -81,7 +80,7 @@ public class WCMapFragmentWrapper  {
     private MapboxDirections client;
     private boolean bHasRoute;
     private boolean bInitiated;
-    private FloatingActionButton mFab;
+//    private FloatingActionButton mFab;
     private LatLng[] mPoints;
 
     LatLng mDestination;
@@ -139,19 +138,19 @@ public class WCMapFragmentWrapper  {
                 }
             }});
     }
-    public void setFab(FloatingActionButton fab) {
-        mFab = fab;
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mRouteFinished = false;
-                mCount = 0;
-                simulateDriving();
-
-            }
-        });
-        mFab.setEnabled(false);
-    }
+//    public void setFab(FloatingActionButton fab) {
+//        mFab = fab;
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mRouteFinished = false;
+//                mCount = 0;
+//                simulateDriving();
+//
+//            }
+//        });
+//        mFab.setEnabled(false);
+//    }
     private void initiate(MapboxMap mapboxMap, Location lastLocation ) {
         LatLng lastCoor = new LatLng(lastLocation);
         Log.v(LOG_TAG, "initiate: location.lat=" + lastCoor.getLatitude() + ", lng=" + lastCoor.getLongitude());
@@ -174,7 +173,6 @@ public class WCMapFragmentWrapper  {
             if (mLastLocation != null) {
                 mDestination = point;
                 getRoute(new LatLng(mLastLocation), point);
-                mFab.setEnabled(true);
             } else {
                 Log.e(LOG_TAG, "onMapClick: unknown current position!");
             }
@@ -227,7 +225,11 @@ public class WCMapFragmentWrapper  {
                         .title("Destination")
                         .snippet(destDescription));
                 drawRoute(currentRoute);
-                bHasRoute = true;
+                if (!bHasRoute) {
+                    bHasRoute = true;
+                    startSimulation();
+                }
+
             }
 
             @Override
@@ -300,6 +302,11 @@ public class WCMapFragmentWrapper  {
         };
         mHandler.post(mRunnable);
     }
+    private void startSimulation() {
+        mRouteFinished = false;
+        mCount = 0;
+        simulateDriving();
+    }
     private void stopSimulation() {
         if (mHandler != null) {
             if (mRunnable != null) {
@@ -329,6 +336,12 @@ public class WCMapFragmentWrapper  {
                 Position.fromCoordinates(to.getLongitude(), to.getLatitude())
         );
     }
+
+    @Override
+    public void switched(boolean inLargeView) {
+        // TODO:  mMap.setMaxZoom() acccording to Window size
+    }
+
     private static class LatLngEvaluator implements TypeEvaluator<LatLng> {
         // Method is used to interpolate the marker animation.
         private LatLng latLng = new LatLng();

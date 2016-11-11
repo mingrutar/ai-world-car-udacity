@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <VideoView
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:foregroundGravity="bottom"
+        android:visibility="invisible"
+        android:id="@+id/video_view" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/video_play_control"
+        android:visibility="visible"
+        android:gravity="center">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:gravity="center_vertical"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="Click the Button to Play"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="@android:color/white" />
+       <android.support.v7.widget.AppCompatImageView
+           android:id="@+id/play_video_large"
+           android:layout_width="64dp"
+           android:layout_height="wrap_content"
+           android:scaleType="fitCenter"
+           android:adjustViewBounds="true"
+           android:layout_gravity="center"
+           android:src="@drawable/ic_play_arrow_24dp"
+           android:background="@drawable/shape_circle" />
+    </LinearLayout>
+</FrameLayout>
