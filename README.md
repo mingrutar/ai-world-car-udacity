@@ -47,14 +47,10 @@ The landscape layout
 
 ![landscape](https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/landscape.png?raw=true)
 
-Long click on the map to set the destination
+Click the Switching button to make video in main window
 
-![setroute](https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/route.png?raw=true)
+![videoMain] (https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/play_video_inmain.png?raw=true)
 
-The car is moving with simulator. If we receive data from car GPS, the plot will be accurate (I hope :)
+Or Map is in the main window
 
-![carmoving](https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/car-maving.png?raw=true)
-
-The car reached the destination
-
-![caratdestination](https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/car-maving.png?raw=true)
+![carmoving](https://github.com/wfs/ai-world-car-team-c4/blob/master/screenshots/play_video_inside.png?raw=true)
