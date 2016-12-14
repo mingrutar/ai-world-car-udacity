@@ -36,4 +36,4 @@ to set destination, long click the location on the map. A route will shown.
 
 ### Video ###
 
-![video](https://drive.google.com/file/d/0B6G_lW9c9NY2UzVNblpQd0pVUG8/view?usp=sharing)
+![tag-video](https://drive.google.com/open?id=0B6G_lW9c9NY2UzVNblpQd0pVUG8)
