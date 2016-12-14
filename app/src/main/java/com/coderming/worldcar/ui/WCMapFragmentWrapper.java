@@ -30,9 +30,11 @@ import com.mapbox.mapboxsdk.annotations.MarkerView;
 import com.mapbox.mapboxsdk.annotations.Polyline;
 import com.mapbox.mapboxsdk.annotations.PolylineOptions;
 import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.camera.CameraUpdate;
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
 import com.mapbox.mapboxsdk.constants.Style;
 import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.location.LocationListener;
 import com.mapbox.mapboxsdk.location.LocationServices;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -63,6 +65,9 @@ import retrofit2.Response;
 
 public class WCMapFragmentWrapper implements SwitchableView {
     private static final String LOG_TAG = WCMapFragmentWrapper.class.getSimpleName();
+
+    private static final int LARGE_VIEW_ZOOM = 13;
+    private static final int SMALL_VIEW_ZOOM = 10;
 
     private static final int ANIMATE_DURATION = 3000;
     private static final LatLng DefaultLatLng = new LatLng(-52.6885, -70.1395);
@@ -108,7 +113,7 @@ public class WCMapFragmentWrapper implements SwitchableView {
         options.styleUrl(Style.LIGHT);
         options.camera(new CameraPosition.Builder()
                 .target(lastCoor)
-                .zoom(9)
+                .zoom(LARGE_VIEW_ZOOM)
                 .build());
         mMapFragment = SupportMapFragment.newInstance(options);
     }
@@ -161,7 +166,7 @@ public class WCMapFragmentWrapper implements SwitchableView {
                     .anchor(0.5f, 0.5f)
                     .flat(true));
             animateMarker(carMarker);
-            mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastCoor, 9));   // or 16 ?
+            mapboxMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lastCoor, LARGE_VIEW_ZOOM));   // or 16 ?
             mapboxMap.setOnMapLongClickListener(myMapClickListener);
             bInitiated = true;
         }
@@ -172,6 +177,8 @@ public class WCMapFragmentWrapper implements SwitchableView {
         try {
             if (mLastLocation != null) {
                 mDestination = point;
+                int padding = (int) mContext.getResources().getDimension(R.dimen.activity_vertical_margin) * 2;
+//                displayMarkers(padding);
                 getRoute(new LatLng(mLastLocation), point);
             } else {
                 Log.e(LOG_TAG, "onMapClick: unknown current position!");
@@ -245,6 +252,7 @@ public class WCMapFragmentWrapper implements SwitchableView {
         for (Polyline pl : lines) {
             mMap.removePolyline(pl);
         }
+//        mDestination = null;
     }
     private void drawRoute(DirectionsRoute route) {
         // Convert LineString coordinates into LatLng[]
@@ -296,7 +304,9 @@ public class WCMapFragmentWrapper implements SwitchableView {
                     loc.setLatitude(mPoints[mCount-1].getLatitude());
                     loc.setLongitude(mPoints[mCount-1].getLongitude());
                     mLastLocation = loc;
-                    animateMarker(carMarker);
+//                    animateMarker(carMarker);
+//                    mDestination = null;
+
                 }
             }
         };
@@ -336,10 +346,30 @@ public class WCMapFragmentWrapper implements SwitchableView {
                 Position.fromCoordinates(to.getLongitude(), to.getLatitude())
         );
     }
+    private void displayMarkers(int padding) {
+        LatLngBounds.Builder builder = new LatLngBounds.Builder();
+        builder.include(new LatLng(mLastLocation));
+        builder.include(mDestination);
+        LatLngBounds bounds = builder.build();
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding );
+        mMap.moveCamera(cu);
 
+    }
     @Override
     public void switched(boolean inLargeView) {
-        // TODO:  mMap.setMaxZoom() acccording to Window size
+        if (mDestination == null) {                 // do nothing if simulator is running
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation),
+                    inLargeView ? LARGE_VIEW_ZOOM : SMALL_VIEW_ZOOM));   // 13 or 9
+        }
+//        if (mDestination != null) {
+//            int padding = (int) mContext.getResources().getDimension(R.dimen.activity_vertical_margin);
+//            if (inLargeView)
+//                padding *= 2;
+//            displayMarkers(padding);
+//        } else {
+//            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation),
+//                    inLargeView?LARGE_VIEW_ZOOM : SMALL_VIEW_ZOOM));   // 13 or 9
+//        }
     }
 
     private static class LatLngEvaluator implements TypeEvaluator<LatLng> {
@@ -360,7 +390,7 @@ public class WCMapFragmentWrapper implements SwitchableView {
         View view = mMap.getMarkerViewManager().getView(marker);
         if (view != null) {
             View backgroundView = view.findViewById(R.id.background_imageview);
-            backgroundView.setVisibility(View.INVISIBLE);
+            backgroundView.setVisibility(View.VISIBLE);
 
             ValueAnimator scaleCircleX = ObjectAnimator.ofFloat(backgroundView, "scaleX", 1.8f);
             ValueAnimator scaleCircleY = ObjectAnimator.ofFloat(backgroundView, "scaleY", 1.8f);

@@ -3,10 +3,10 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <VideoView
+    <com.coderming.worldcar.ui.MyVideoView
         android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        android:foregroundGravity="bottom"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
         android:visibility="invisible"
         android:id="@+id/video_view" />
 

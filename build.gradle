@@ -2,21 +2,38 @@
 
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
         jcenter()
+
     }
+/*    apply from: project.file("buildscript.gradle")  */
+    apply from: "https://github.com/rosjava/rosjava_bootstrap/raw/indigo/buildscript.gradle"
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.android.tools.build:gradle:2.1.3'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
 }
-
+/*
+buildscript {
+    apply from: "https://github.com/rosjava/rosjava_bootstrap/raw/indigo/buildscript.gradle"
+    apply from: project.file("buildscript.gradle")
+}  */
 allprojects {
     repositories {
+/*        mavenLocal()    */
+        mavenCentral()
         jcenter()
+ /*       maven {
+            url "https://github.com/rosjava/rosjava_mvn_repo/raw/master"
+        }     */
     }
+}
+subprojects {
+    apply plugin: 'ros-android'
 }
 
 task clean(type: Delete) {

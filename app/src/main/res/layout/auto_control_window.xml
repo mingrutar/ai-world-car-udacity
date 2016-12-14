@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginTop="@dimen/gap_medium"
-    android:layout_marginLeft="@dimen/gap_medium"
-    android:layout_marginRight="@dimen/gap_medium"
-    android:layout_marginBottom="@dimen/gap_medium"
-    android:background="?attr/selectableItemBackground"
-    android:clickable="true"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true">
-
     <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:background="@drawable/udacitycar"
-        android:orientation="vertical">
+        android:paddingLeft="@dimen/gap_small"
+        android:paddingRight="@dimen/gap_small">
         <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/auto_steer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:foregroundGravity="center"
@@ -47,42 +37,80 @@
             android:textStyle="bold"
             android:layout_toStartOf="@+id/driving_speed_unit"
             android:text="20"/>
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:layout_alignParentTop="true"
             android:layout_alignParentStart="true"
-            android:orientation="vertical"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/gap_medium"
             android:onClick="toggleDrivingMode">
-            <android.support.v7.widget.AppCompatImageView
-                android:layout_width="@dimen/driving_mode_size"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/gap_large"
-                android:layout_marginRight="@dimen/gap_large"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true"
-                android:src="@drawable/ic_driving_auto_24dp"  />
             <TextView
-                android:id="@+id/driving_mode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:paddingEnd="@dimen/gap_small"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textStyle="bold"
+                android:text="@string/auto_brake" />
+            <TextView
+                android:id="@+id/auto_brake"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:background="@color/colorAutoDriving"
-                android:textColor="@android:color/white"
                 android:padding="@dimen/gap_small"
-                android:textAppearance="?android:textAppearanceSmall"
-                android:text="@string/mode_auto_cruise" />
+                android:textAppearance="?android:textAppearanceMediumInverse"
+                android:text="1000" />
         </LinearLayout>
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/driving_gear"
-            android:layout_width="@dimen/driving_mode_height"
-            android:layout_height="@dimen/driving_mode_height"
-            android:layout_alignParentBottom="true"
+        <TextView
+            android:id="@+id/auto_twist_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_marginBottom="@dimen/gap_medium"
-            android:scaleType="fitCenter"
-            android:src="@drawable/gear" />
+            android:layout_above="@+id/twist_block"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textStyle="bold"
+            android:text="@string/auto_twist" />
+        <LinearLayout
+            android:id="@+id/twist_block"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="@dimen/gap_small"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingEnd="@dimen/gap_small"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:text="@string/auto_linear" />
+            <TextView
+                android:id="@+id/auto_twist_linear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAutoDriving"
+                android:paddingStart="@dimen/gap_small"
+                android:paddingEnd="@dimen/gap_small"
+                android:textAppearance="?android:textAppearanceMediumInverse"
+                android:text="0, 02, 0.1" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/gap_medium"
+                android:paddingEnd="@dimen/gap_small"
+                android:textAppearance="?android:textAppearanceSmall"
+                android:text="@string/auto_angular" />
+            <TextView
+                android:id="@+id/auto_twist_angular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorAutoDriving"
+                android:paddingStart="@dimen/gap_small"
+                android:paddingEnd="@dimen/gap_small"
+                android:textAppearance="?android:textAppearanceMediumInverse"
+                android:text="0, 02, 0.1" />
+        </LinearLayout>
    </RelativeLayout>
-</android.support.v7.widget.CardView>

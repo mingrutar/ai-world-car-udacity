@@ -1,8 +1,11 @@
 package com.coderming.worldcar.ui;
 
 import android.Manifest;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Point;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -15,15 +18,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.coderming.worldcar.BuildConfig;
 import com.coderming.worldcar.R;
+import com.coderming.worldcar.model.AutowareTask;
+import com.coderming.worldcar.model.UIUpdateHandler;
 import com.mapbox.mapboxsdk.MapboxAccountManager;
 import com.mapbox.mapboxsdk.location.LocationServices;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.Arrays;
+
+public class MainActivity extends AppCompatActivity implements UIUpdateHandler {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    public static final String DEFAULT_MASTER_IP = "192.168.0.196";
+    public static final String LAST_MASTER_KEY = "LAST_MASTER_KEY";
 
     private static final String MAIN_FRAG = "com.coderming.main";
     private static final String SIDE_FRAG = "com.coderming.side";
@@ -34,14 +46,29 @@ public class MainActivity extends AppCompatActivity {
     private WCMapFragmentWrapper mMapWrapper;
     private MediaFragment mMediaFragment;
 
+    private TextView mAccel;
+    private TextView mBrake;
+    private TextView mTwistLinear;
+    private TextView mTwistAnguar;
+    private ImageView mSteel;
+
+    private AutowareTask mAutowareTask;
+    private String mMasterIp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MapboxAccountManager.start(this, BuildConfig.MAPBOX_API_KEY);
+        MapboxAccountManager.start(getApplicationContext(), BuildConfig.MAPBOX_API_KEY);
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mBrake = (TextView) findViewById(R.id.auto_brake) ;
+        mTwistLinear = (TextView) findViewById(R.id.auto_twist_linear);
+        mTwistAnguar = (TextView) findViewById(R.id.auto_twist_angular);
+        mAccel = (TextView) findViewById(R.id.driving_speed);
+        mSteel = (ImageView) findViewById(R.id.auto_steer);
 
         if (savedInstanceState == null) {
             final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -77,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
         // Enable GPS location tracking.
         locationServices.toggleGPS(true);
 
+        Point displaySize = new Point();
+        getWindowManager().getDefaultDisplay().getRealSize(displaySize);
+        final int largeScreenWidth = (displaySize.x * 2) /3;                // large than2/3
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,8 +119,16 @@ public class MainActivity extends AppCompatActivity {
                 viewParent2.removeView(videoView);
                 viewParent1.addView(videoView);
                 viewParent2.addView(mapView);
+                boolean isMap2LargeScreen = viewParent2.getWidth() > largeScreenWidth;
+                mMediaFragment.switched(!isMap2LargeScreen);
+                mMapWrapper.switched(isMap2LargeScreen);
             }
         });
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        mMasterIp = pref.getString(LAST_MASTER_KEY, DEFAULT_MASTER_IP);
+        mAutowareTask = new AutowareTask(this);
+        mAutowareTask.execute(mMasterIp);
     }
 
     @Override
@@ -144,5 +182,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         Log.v(LOG_TAG, "+++++ onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void updateAccel(int val) {
+        mAccel.setText(Integer.toString(val));
+    }
+
+    @Override
+    public void updateBrake(int val) {
+        mBrake.setText(Integer.toString(val));
+    }
+
+    @Override
+    public void updateSteer(int val) {
+        mSteel.setRotation(val);
+    }
+    @Override
+    public void updateTwist(double[] linear, double[] angular) {
+        mTwistLinear.setText(Arrays.toString(linear));
+        mTwistAnguar.setText(Arrays.toString(angular));
     }
 }

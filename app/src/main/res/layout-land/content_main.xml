@@ -15,11 +15,14 @@
         android:id="@+id/large_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
+        android:background="@android:color/black"
         android:layout_weight="5"/>
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"
+        android:paddingStart="@dimen/gap_medium"
+        android:paddingLeft="@dimen/gap_medium"
         android:orientation="vertical">
         <include  layout="@layout/auto_control_window"
                   android:layout_width="match_parent"
@@ -29,6 +32,7 @@
             android:id="@+id/small_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"/>
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/gap_small"/>
     </LinearLayout>
 </LinearLayout>

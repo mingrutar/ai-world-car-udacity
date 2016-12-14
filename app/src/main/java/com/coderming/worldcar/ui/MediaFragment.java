@@ -10,7 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.MediaController;
-import android.widget.VideoView;
 
 import com.coderming.worldcar.R;
 
@@ -21,7 +20,7 @@ public class MediaFragment extends Fragment implements SwitchableView {
     private static final String LOG_TAG = MediaFragment.class.getSimpleName();
 
     // Video play
-    VideoView mVideoView;
+    MyVideoView mVideoView;
     View mPlayGroup;
     AppCompatImageView mPlayVideo;
     MediaController mMediaController;
@@ -31,17 +30,17 @@ public class MediaFragment extends Fragment implements SwitchableView {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         final View rootView = inflater.inflate(R.layout.play_video, container, false);
 
-        mVideoView = (VideoView) rootView.findViewById(R.id.video_view) ;
+        mVideoView = (MyVideoView) rootView.findViewById(R.id.video_view) ;
         mPlayGroup = rootView.findViewById(R.id.video_play_control);
         mPlayVideo = (AppCompatImageView) rootView.findViewById(R.id.play_video_large);
 
         mMediaController = new MediaController(getContext()) {
             @Override
             public void hide() {
-//                super.hide();
+                super.hide();
             }
         };
         mMediaController.show(0);
@@ -52,12 +51,19 @@ public class MediaFragment extends Fragment implements SwitchableView {
         mVideoView.setVideoURI(uri);
         mVideoView.requestFocus();
 
-        mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
-            }
-        });
+        if (savedInstanceState == null) {
+            mVideoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    Log.v(LOG_TAG, "+++++setOnPreparedListener, savedInstanceState!=null is" + (savedInstanceState != null));
+                    mp.setLooping(true);
+                }
+            });
+        } else {
+            mVideoView.start();
+            mVideoView.setVisibility(View.VISIBLE);
+            mPlayGroup.setVisibility(View.INVISIBLE);
+        }
 
         mPlayVideo.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -65,6 +71,7 @@ public class MediaFragment extends Fragment implements SwitchableView {
                 mVideoView.start();
                 mVideoView.setVisibility(View.VISIBLE);
                 mPlayGroup.setVisibility(View.INVISIBLE);
+                mMediaController.show();
             }
         });
         return rootView;
@@ -84,7 +91,6 @@ public class MediaFragment extends Fragment implements SwitchableView {
     @Override
     public void onStop() {
         Log.v(LOG_TAG, "+++++onStop, ");
-        mMediaController.hide();
         super.onStop();
     }
 
@@ -110,13 +116,17 @@ public class MediaFragment extends Fragment implements SwitchableView {
     public void onPause() {
         Log.v(LOG_TAG, "+++++onPause, ");
         super.onPause();
-        if (!mVideoView.isPlaying()) {
+        if (mVideoView.isPlaying()) {
             mVideoView.pause();
         }
     }
 
     @Override
     public void switched(boolean inLargeView) {
-        //TODO: in large window show more items
+        Log.v(LOG_TAG, "+++++switched, inLargeView="+inLargeView);
+        mVideoView.start();
+        if (mMediaController != null) {
+            mMediaController.show();
+        }
     }
 }
