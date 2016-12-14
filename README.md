@@ -32,8 +32,7 @@ to set destination, long click the location on the map. A route will shown.
    a) Is it possible to set destination to car? if yes (guess yes), how?
    b) How can we test the code? The Autoware simulator bag I have is at Japan, I am not familiar with that area to set up a route. My computer cannot digest 3 hours bag.
 
-``` Any one has idea, please let the team know. ```
 
 ### Video ###
 
-![tag-video](https://drive.google.com/open?id=0B6G_lW9c9NY2UzVNblpQd0pVUG8)
+![video](https://github.com/wfs/ai-world-car-team-c4/blob/master/app/src/main/res/mipmap-mdpi/ic_launcher.png?raw=true)(https://drive.google.com/file/d/0B6G_lW9c9NY2UzVNblpQd0pVUG8/view?usp=sharing)
