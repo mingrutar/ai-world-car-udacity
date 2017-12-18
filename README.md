@@ -34,9 +34,4 @@ to set destination, long click the location on the map. A route will shown.
 
 ### Video ###
 
-![video](https://drive.google.com/file/d/0B6G_lW9c9NY2UzVNblpQd0pVUG8/view?usp=sharing)
-=======
-
-### Video ###
-
 ![video](https://github.com/wfs/ai-world-car-team-c4/blob/master/app/src/main/res/mipmap-mdpi/ic_launcher.png?raw=true)(https://drive.google.com/file/d/0B6G_lW9c9NY2UzVNblpQd0pVUG8/view?usp=sharing)
