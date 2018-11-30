@@ -1,4 +1,4 @@
-## ![logo](app/src/main/ic_launcher-web.png) World Car 
+## <img src="app/src/main/ic_launcher-web.png" alt="alt text" width="36" height="36"> World Car
 
 ### Work of ai-world-car-team-c4 ###
 Global team approach to solving Self-Driving Car (SDC) challenges. Prize money donated to UNICEF.
